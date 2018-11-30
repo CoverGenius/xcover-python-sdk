@@ -12,13 +12,13 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='sample',
+    name='xcovlib',
     version='0.1.0',
-    description='Sample package for Python-Guide.org',
+    description='SDK to Connect to xCover core',
     long_description=readme,
-    author='Kenneth Reitz',
-    author_email='me@kennethreitz.com',
-    url='https://github.com/kennethreitz/samplemod',
+    author='xCover Team',
+    author_email='python+devs@covergenius.biz',
+    url='https://github.com/sample/samplemod',
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
