@@ -18,8 +18,12 @@ setup(
     long_description=readme,
     author='xCover Team',
     author_email='python+devs@covergenius.biz',
-    url='https://github.com/sample/samplemod',
+    url='https://github.com/CoverGenius/xcover-python-sdk/',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    install_requires=[
+        'atomicwrites==1.2.1', 'attrs==18.2.0', 'httpsig==1.3.0', 'more-itertools==4.3.0', 'pluggy==0.8.0',
+        'py==1.7.0', 'pycryptodome==3.7.2', 'requests'
+    ],  # external packages as dependencies
 )
 
