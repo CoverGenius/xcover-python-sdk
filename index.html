@@ -1,0 +1,284 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to xCover Python SDK’s documentation! &#8212; xCover Python SDK 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-xcover-python-sdk-s-documentation">
+<h1>Welcome to xCover Python SDK’s documentation!<a class="headerlink" href="#welcome-to-xcover-python-sdk-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>To use this library</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xcovlib.http.auth</span> <span class="kn">import</span> <span class="n">SignatureAuth</span>
+<span class="kn">from</span> <span class="nn">xcovlib.http.http_requests</span> <span class="kn">import</span> <span class="n">HttpRequest</span>
+<span class="kn">from</span> <span class="nn">xcovlib.registry</span> <span class="kn">import</span> <span class="n">registry</span>
+<span class="kn">from</span> <span class="nn">xcovlib.api.quotes</span> <span class="kn">import</span> <span class="n">Quote</span>
+
+
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">SignatureAuth</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">xcov_key</span> <span class="n">secret</span><span class="o">=</span><span class="n">xcov_secret</span><span class="p">)</span>
+
+<span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;https://127.0.0.1:8001&#39;</span> <span class="c1"># host for xCover</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">credentials</span><span class="p">,)</span>
+<span class="n">registry</span><span class="o">.</span><span class="n">setup</span><span class="p">({</span><span class="s1">&#39;http_handler&#39;</span><span class="p">:</span> <span class="n">conn</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Now you can continue to use the methods below normally</p>
+</div>
+<div class="section" id="module-xcovlib.api.quotes">
+<span id="quotes"></span><h1>Quotes<a class="headerlink" href="#module-xcovlib.api.quotes" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="xcovlib.api.quotes.Quote">
+<em class="property">class </em><code class="descclassname">xcovlib.api.quotes.</code><code class="descname">Quote</code><span class="sig-paren">(</span><em>prefix='/api/v2/'</em>, <em>**url_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/quotes.html#Quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.quotes.Quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class for Quote Model as described in the documentation for xCover.</p>
+<p>Quote supports two methods, which are create and get. You can use both to access and manipulate quotes
+on the database</p>
+<dl class="classmethod">
+<dt id="xcovlib.api.quotes.Quote.create_quote">
+<em class="property">classmethod </em><code class="descname">create_quote</code><span class="sig-paren">(</span><em>partner_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/quotes.html#Quote.create_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.quotes.Quote.create_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a New Quote under a PartnerID by passing the API Fields as described in the API Docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Partner_id:</th><td class="field-body">Id of the Partner for which the Quote is being created</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">quote</span> <span class="o">=</span> <span class="n">Quote</span><span class="o">.</span><span class="n">create_quote</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;aaa&#39;</span><span class="p">,</span> <span class="n">destination_country</span><span class="o">=</span><span class="s1">&#39;AUS&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Quote object with the response fields according to the Documentation</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="xcovlib.api.quotes.Quote.get_quote">
+<em class="property">classmethod </em><code class="descname">get_quote</code><span class="sig-paren">(</span><em>partner_id</em>, <em>quote_package_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/quotes.html#Quote.get_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.quotes.Quote.get_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Quote details when the Quote ID and Project ID is provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>partner_id</strong> – The ID of the Partner</li>
+<li><strong>quote_package_id</strong> – The ID of the Quote Package</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">quote</span> <span class="o">=</span> <span class="n">Quote</span><span class="o">.</span><span class="n">get_quote</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;aaa&#39;</span><span class="p">,</span> <span class="n">quote_package_id</span><span class="o">=</span><span class="s1">&#39;bbbb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Quote object with the fields according to the API Documentation</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xcovlib.api.bookings">
+<span id="bookings"></span><h1>Bookings<a class="headerlink" href="#module-xcovlib.api.bookings" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="xcovlib.api.bookings.Bookings">
+<em class="property">class </em><code class="descclassname">xcovlib.api.bookings.</code><code class="descname">Bookings</code><span class="sig-paren">(</span><em>prefix='/api/v2/'</em>, <em>**url_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/bookings.html#Bookings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.bookings.Bookings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class for Booking Model as described in the documentation for xCover.</p>
+<p>Quote supports two methods, which are create_booking and get_booking.
+You can use it to access and manipulate booking on the database</p>
+<p>TODO: Add update field and cancel method</p>
+<dl class="classmethod">
+<dt id="xcovlib.api.bookings.Bookings.create_booking">
+<em class="property">classmethod </em><code class="descname">create_booking</code><span class="sig-paren">(</span><em>partner_id</em>, <em>quote_package_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/bookings.html#Bookings.create_booking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.bookings.Bookings.create_booking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a New Booking under a PartnerID by passing the API Fields as described in the API Docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>partner_id</strong> – The ID of the partner for which the booking needs to be created</li>
+<li><strong>quote_package_id</strong> – The ID of the quote package under which the booking can be created</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Booking object with all the data as in the API Documentation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="xcovlib.api.bookings.Bookings.get_booking">
+<em class="property">classmethod </em><code class="descname">get_booking</code><span class="sig-paren">(</span><em>partner_id</em>, <em>quote_package_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/bookings.html#Bookings.get_booking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.bookings.Bookings.get_booking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Booking details when the Quote Package ID and Project ID is provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ID</strong> (<em>Partner</em>) – The ID of the Partner under which the booking exists</li>
+<li><strong>Package ID</strong> (<a class="reference internal" href="#xcovlib.api.quotes.Quote" title="xcovlib.api.quotes.Quote"><em>Quote</em></a>) – The ID of the Quote Package</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-xcovlib.api.renewals">
+<span id="renewals"></span><h1>Renewals<a class="headerlink" href="#module-xcovlib.api.renewals" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="xcovlib.api.renewals.Renewal">
+<em class="property">class </em><code class="descclassname">xcovlib.api.renewals.</code><code class="descname">Renewal</code><span class="sig-paren">(</span><em>prefix='/api/v2/'</em>, <em>**url_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/renewals.html#Renewal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.renewals.Renewal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class for Renewals Model as described in the API documentation for xCover.</p>
+<p>Only supports Cancelling Renewals</p>
+<dl class="classmethod">
+<dt id="xcovlib.api.renewals.Renewal.confirm_renewal">
+<em class="property">classmethod </em><code class="descname">confirm_renewal</code><span class="sig-paren">(</span><em>partner_id</em>, <em>renewal_id</em>, <em>paid_on</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcovlib/api/renewals.html#Renewal.confirm_renewal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcovlib.api.renewals.Renewal.confirm_renewal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confirm the Renewal by the Client</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>partner_id</strong> – The ID of the Partner</li>
+<li><strong>renewal_id</strong> – The ID of the Renewal</li>
+<li><strong>paid_on</strong> – The date the renewal was paid on in ISO 8601 format</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Renewal</span><span class="o">.</span><span class="n">confirm_renewal</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="s1">&#39;aaa&#39;</span><span class="p">,</span> <span class="n">renewal_id</span><span class="o">=</span><span class="s1">&#39;bbbb&#39;</span><span class="p">,</span> <span class="n">paid_on</span><span class="o">=</span><span class="s1">&#39;DD:MM:YYYY&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Success based on Response Status Code</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">xCover Python SDK</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Cover Genius.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
