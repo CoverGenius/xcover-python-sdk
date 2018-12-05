@@ -16,11 +16,9 @@ class PolicyTypes(BaseModel):
     @classmethod
     def get_policies(cls, query_params=dict(), **kwargs):
         """
-        Get the Booking details when the Quote Package ID and Project ID is provided
+        Get Policies on the System. Admin API Only
 
-        :param Partner ID: The ID of the Partner under which the booking exists
-        :param Quote Package ID: The ID of the Quote Package
-
+        :param query_params: Any parameters you want to pass in the URL
         """
         policy_types = cls(**kwargs)
         response = policy_types._get(query_params, **kwargs)

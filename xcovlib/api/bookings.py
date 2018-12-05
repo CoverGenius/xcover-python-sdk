@@ -23,8 +23,10 @@ class Bookings(BaseModel):
         """
         Get the Booking details when the Quote Package ID and Project ID is provided
 
-        :param Partner ID: The ID of the Partner under which the booking exists
-        :param Quote Package ID: The ID of the Quote Package
+        :param partner_id ID: The ID of the Partner under which the booking exists
+        :param quote_package_id Package ID: The ID of the Quote Package
+        :param query_params: Any parameters you want to pass in the URL
+        :returns: Booking object
 
         """
         kwargs['partner_id'] = partner_id
@@ -42,6 +44,7 @@ class Bookings(BaseModel):
 
         :param partner_id: The ID of the partner for which the booking needs to be created
         :param quote_package_id: The ID of the quote package under which the booking can be created
+        :param query_params: Any parameters you want to pass in the URL
 
         :returns: Booking object with all the data as in the API Documentation
         """

@@ -23,8 +23,9 @@ class Quote(BaseModel):
 
         :param partner_id: The ID of the Partner
         :param quote_package_id: The ID of the Quote Package
+        :param query_params: Any parameters you want to pass in the URL
 
-        >>> quote = Quote.get_quote(partner_id='aaa', quote_package_id='bbbb')
+        >>> quote = Quote.get_quote(partner_id='aaa', query_params={'limit': 10},  quote_package_id='bbbb')
 
         :returns: Quote object with the fields according to the API Documentation
         """
@@ -39,8 +40,9 @@ class Quote(BaseModel):
         Create a New Quote under a PartnerID by passing the API Fields as described in the API Docs
 
         :partner_id: Id of the Partner for which the Quote is being created
+        :param query_params: Any parameters you want to pass in the URL
 
-        >>> quote = Quote.create_quote(partner_id='aaa', destination_country='AUS', data=...)
+        >>> quote = Quote.create_quote(partner_id='aaa', query_params={'limit': 10}, destination_country='AUS', data=...)
 
         :returns: Quote object with the response fields according to the Documentation
         """

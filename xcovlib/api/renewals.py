@@ -22,8 +22,9 @@ class Renewal(BaseModel):
         :param partner_id: The ID of the Partner
         :param renewal_id: The ID of the Renewal
         :param paid_on: The date the renewal was paid on in ISO 8601 format
+        :param query_params: Any parameters you want to pass in the URL
 
-        >>> Renewal.confirm_renewal(partner_id='aaa', renewal_id='bbbb', paid_on='DD:MM:YYYY')
+        >>> Renewal.confirm_renewal(partner_id='aaa', renewal_id='bbbb', paid_on='DD:MM:YYYY', query_params={'limit': 10})
 
         :returns: Success based on Response Status Code
         """
