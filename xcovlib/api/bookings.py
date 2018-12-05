@@ -32,7 +32,6 @@ class Bookings(BaseModel):
         booking = cls(partner_id=partner_id, quote_package_id=quote_package_id)
 
         response = booking._get(query_params, **kwargs)
-        print(type(response))
         booking.set_values(response)
         return booking
 

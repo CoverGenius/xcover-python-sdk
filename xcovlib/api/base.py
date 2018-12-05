@@ -236,7 +236,7 @@ class BaseModel():
         path = template % self.get_url_parameters()
         if query_params:
             query_params = '&'.join(["{}={}".format(key, value) for key, value in query_params.items()])
-            return '?'.join(path, query_params)
+            return '?'.join([path, query_params])
         return path
 
     def _construct_path_to_item(self, query_params):
@@ -244,7 +244,7 @@ class BaseModel():
         path = self.get_path_to_item_template() % self.get_url_parameters()
         if query_params:
             query_params = '&'.join(["{}={}".format(key, value) for key, value in query_params.items()])
-            return '?'.join(path, query_params)
+            return '?'.join([path, query_params])
         return path
 
     def get_url_parameters(self):
