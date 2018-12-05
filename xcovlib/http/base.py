@@ -12,6 +12,7 @@ class BaseRequest(object):
         403: exceptions.AuthenticationError,
         404: exceptions.NotFoundError,
         409: exceptions.ConflictError,
+        422: exceptions.RequestError
     }
 
     success = {
@@ -26,6 +27,7 @@ class BaseRequest(object):
         403: "Authentication error: %s",
         404: "Entity was not found: %s",
         409: "Error with the request: %s",
+        422: "Request data was malformed: %s",
     }
 
     default_scheme = 'https'

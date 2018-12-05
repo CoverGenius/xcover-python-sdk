@@ -1,5 +1,3 @@
-import json
-import decimal
 from .base import BaseModel
 
 
@@ -21,7 +19,7 @@ class Bookings(BaseModel):
         return '[Booking ID={}]'.format(self.quote_package_id)
 
     @classmethod
-    def get_booking(cls, partner_id, quote_package_id, **kwargs):
+    def get_booking(cls, partner_id, quote_package_id, query_params=dict(), **kwargs):
         """
         Get the Booking details when the Quote Package ID and Project ID is provided
 
@@ -31,10 +29,15 @@ class Bookings(BaseModel):
         """
         kwargs['partner_id'] = partner_id
         kwargs['quote_package_id'] = quote_package_id
-        return super().get(**kwargs)
+        booking = cls(partner_id=partner_id, quote_package_id=quote_package_id)
+
+        response = booking._get(query_params, **kwargs)
+        print(type(response))
+        booking.set_values(response)
+        return booking
 
     @classmethod
-    def create_booking(cls, partner_id, quote_package_id, **kwargs):
+    def create_booking(cls, partner_id, quote_package_id, query_params=dict(), **kwargs):
         """
         Create a New Booking under a PartnerID by passing the API Fields as described in the API Docs
 
@@ -44,9 +47,6 @@ class Bookings(BaseModel):
         :returns: Booking object with all the data as in the API Documentation
         """
         booking = cls(partner_id=partner_id, quote_package_id=quote_package_id)
-        response = booking._create(**kwargs)
-
-        for key, value in json.loads(response, parse_float=decimal.Decimal).items():
-            booking.__setattr__(key, value)
-
+        response = booking._create(query_params, **kwargs)
+        booking.set_values(response)
         return booking

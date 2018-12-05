@@ -57,3 +57,7 @@ class RemoteServerError(ServerError):
 
 class NoResponseError(ServerError):
     """Exception raised when there was no connection to the remopte server."""
+
+
+class RequestError(ServerError):
+    """Exception raised when the request data is malformed"""

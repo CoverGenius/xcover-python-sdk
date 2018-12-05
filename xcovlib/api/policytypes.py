@@ -1,4 +1,3 @@
-import json
 from .base import BaseModel
 
 
@@ -15,7 +14,7 @@ class PolicyTypes(BaseModel):
         return '[Policies Object]'
 
     @classmethod
-    def get_policies(cls, **kwargs):
+    def get_policies(cls, query_params=dict(), **kwargs):
         """
         Get the Booking details when the Quote Package ID and Project ID is provided
 
@@ -23,5 +22,7 @@ class PolicyTypes(BaseModel):
         :param Quote Package ID: The ID of the Quote Package
 
         """
-        policy_types = super().get(**kwargs)
+        policy_types = cls(**kwargs)
+        response = policy_types._get(query_params, **kwargs)
+        policy_types.set_values(response)
         return policy_types

@@ -117,21 +117,6 @@ class HttpRequest(BaseRequest):
             `method`: The method (POST or PUT) to use.
             `path`: The path to the resource.
             `data`: The data to send.
-            `filename`: The filename of the file to send (if any).
-        Returns:
-            The content of the response.
-        Raises:
-            An exception depending on the HTTP status code of the response.
-        """
-        return self._send_json(method, path, data)
-
-    def _send_json(self, method, path, data):
-        """Make a application/json request.
-
-        Args:
-            `method`: The method of the request (POST or PUT).
-            `path`: The path to the resource.
-            `data`: The JSON-encoded data.
         Returns:
             The content of the response.
         Raises:

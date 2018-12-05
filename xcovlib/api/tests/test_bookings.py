@@ -35,8 +35,8 @@ class TestBookings(TestCase):
         }]
 
         quote = Quote.create_quote(
-            partner_id='XCOV', currency='AUD', customer_country='AU', destination_country='US',
-            request=data
+            partner_id='XCOV', currency='AUD', customer_country='AU',
+            destination_country='US', request=data
         )
 
         # save quotes
@@ -64,7 +64,8 @@ class TestBookings(TestCase):
             }
         }
         booking = Bookings.create_booking(
-            partner_id='XCOV', quote_package_id=package_id, **booking_data
+            partner_id='XCOV', quote_package_id=package_id,
+            **booking_data
         )
         self.assertIsNotNone(booking.id)
 

@@ -1,5 +1,3 @@
-import json
-import decimal
 from .base import BaseModel
 
 
@@ -19,7 +17,7 @@ class Quote(BaseModel):
         return '[Quote ID={}]'.format(self.quote_package_id)
 
     @classmethod
-    def get_quote(cls, partner_id, quote_package_id, **kwargs):
+    def get_quote(cls, partner_id, quote_package_id, query_params=dict(), **kwargs):
         """
         Get the Quote details when the Quote ID and Project ID is provided
 
@@ -30,12 +28,13 @@ class Quote(BaseModel):
 
         :returns: Quote object with the fields according to the API Documentation
         """
-        kwargs['partner_id'] = partner_id
-        kwargs['quote_package_id'] = quote_package_id
-        return super().get(**kwargs)
+        quote = cls(partner_id=partner_id, quote_package_id=quote_package_id)
+        response = quote._get(query_params, **kwargs)
+        quote.set_values(response)
+        return quote
 
     @classmethod
-    def create_quote(cls, partner_id, **kwargs):
+    def create_quote(cls, partner_id, query_params=dict(), **kwargs):
         """
         Create a New Quote under a PartnerID by passing the API Fields as described in the API Docs
 
@@ -46,9 +45,6 @@ class Quote(BaseModel):
         :returns: Quote object with the response fields according to the Documentation
         """
         quote = cls(partner_id=partner_id)
-        response = quote._create(**kwargs)
-
-        for key, value in json.loads(response, parse_float=decimal.Decimal).items():
-            quote.__setattr__(key, value)
-
+        response = quote._create(query_params, **kwargs)
+        quote.set_values(response)
         return quote

@@ -57,8 +57,7 @@ since the actual exception raised isn't shown anywhere.
 
 
 import json
-
-from xcovlib.utils import _logger
+import decimal
 from xcovlib.registry import registry
 
 
@@ -138,6 +137,7 @@ class BaseModel():
 
         Args:
             prefix: The prefix of the urls.
+            url_parameters: The parameters that are passed in the URL
         Raises:
             AttributeError: if not all values for parameters in `url_fields`
                 are passed
@@ -176,6 +176,13 @@ class BaseModel():
 
         self._modified_fields[name] = value
 
+    def set_values(self, response):
+        if type(response) == dict:
+            for key, value in response.items():
+                self.__setattr__(key, value)
+        else:
+            for key, value in json.loads(response, parse_float=decimal.Decimal).items():
+                self.__setattr__(key, value)
 
     def save(self, **fields):
         """Save the instance to the xCover server.
@@ -199,38 +206,46 @@ class BaseModel():
         """Populate the instance with the values from the server."""
         self._populated_fields = self._get(**kwargs)
 
-    def _get(self, **kwargs):
+    def _get(self, query_params=dict(), **kwargs):
         """Get the resource from xCover."""
-        path = self._construct_path_to_item()
+        path = self._construct_path_to_item(query_params)
         return self._http.get(path)
 
-    def _create(self, **kwargs):
+    def _create(self, query_params=dict(), **kwargs):
         """Create a resource in the xCover."""
-        path = self._construct_path_to_collection()
+        path = self._construct_path_to_collection(query_params)
         return self._http.post(path, json.dumps(kwargs))
 
-    def _update(self, **kwargs):
+    def _update(self, query_params=dict(), **kwargs):
         """Update a resource."""
-        path = self._construct_path_to_item()
+        path = self._construct_path_to_item(query_params)
         if not kwargs:
             return
         return self._http.put(path, json.dumps(kwargs))
 
-    def _patch(self, **kwargs):
+    def _patch(self, query_params=dict(), **kwargs):
         """Patch a resource."""
-        path = self._construct_path_to_item()
+        path = self._construct_path_to_item(query_params)
         if not kwargs:
             return
         return self._http.patch(path, json.dumps(kwargs))
 
-    def _construct_path_to_collection(self):
+    def _construct_path_to_collection(self, query_params):
         """Construct the path to an actual collection."""
         template = self.get_path_to_collection_template()  # flake8 fix
-        return template % self.get_url_parameters()
+        path = template % self.get_url_parameters()
+        if query_params:
+            query_params = '&'.join(["{}={}".format(key, value) for key, value in query_params.items()])
+            return '?'.join(path, query_params)
+        return path
 
-    def _construct_path_to_item(self):
+    def _construct_path_to_item(self, query_params):
         """Construct the path to an actual item."""
-        return self.get_path_to_item_template() % self.get_url_parameters()
+        path = self.get_path_to_item_template() % self.get_url_parameters()
+        if query_params:
+            query_params = '&'.join(["{}={}".format(key, value) for key, value in query_params.items()])
+            return '?'.join(path, query_params)
+        return path
 
     def get_url_parameters(self):
         """Create a dictionary of parameters used in URLs for this model."""

@@ -1,5 +1,6 @@
 from .base import BaseModel
 
+
 class Renewal(BaseModel):
     """
     Base Class for Renewals Model as described in the API documentation for xCover.
@@ -14,7 +15,7 @@ class Renewal(BaseModel):
         return '[Renewal ID={}]'.format(self.quote_package_id)
 
     @classmethod
-    def confirm_renewal(cls, partner_id, renewal_id, paid_on):
+    def confirm_renewal(cls, partner_id, renewal_id, paid_on, query_params=dict()):
         """
         Confirm the Renewal by the Client
 
@@ -26,7 +27,7 @@ class Renewal(BaseModel):
 
         :returns: Success based on Response Status Code
         """
-        return super().patch(**{
+        return super().patch(query_params, **{
             'partner_id': partner_id,
             'renewal_id': renewal_id,
             'paid_on': paid_on
