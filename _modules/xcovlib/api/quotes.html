@@ -1,0 +1,152 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>xcovlib.api.quotes &#8212; xCover Python SDK 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for xcovlib.api.quotes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">BaseModel</span>
+
+
+<div class="viewcode-block" id="Quote"><a class="viewcode-back" href="../../../index.html#xcovlib.api.quotes.Quote">[docs]</a><span class="k">class</span> <span class="nc">Quote</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base Class for Quote Model as described in the documentation for xCover.</span>
+
+<span class="sd">    Quote supports two methods, which are create and get. You can use both to access and manipulate quotes</span>
+<span class="sd">    on the database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_path_to_collection</span> <span class="o">=</span> <span class="s1">&#39;partners/</span><span class="si">%(partner_id)s</span><span class="s1">/quotes/&#39;</span>
+    <span class="n">_path_to_item</span> <span class="o">=</span> <span class="s1">&#39;partners/</span><span class="si">%(partner_id)s</span><span class="s1">/quotes/</span><span class="si">%(quote_package_id)s</span><span class="s1">/&#39;</span>
+
+    <span class="n">url_fields</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;partner_id&#39;</span><span class="p">,</span> <span class="s1">&#39;quote_package_id&#39;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;[Quote ID=</span><span class="si">{}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quote_package_id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Quote.get_quote"><a class="viewcode-back" href="../../../index.html#xcovlib.api.quotes.Quote.get_quote">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_quote</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">,</span> <span class="n">quote_package_id</span><span class="p">,</span> <span class="n">query_params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the Quote details when the Quote ID and Project ID is provided</span>
+
+<span class="sd">        :param partner_id: The ID of the Partner</span>
+<span class="sd">        :param quote_package_id: The ID of the Quote Package</span>
+<span class="sd">        :param query_params: Any parameters you want to pass in the URL</span>
+
+<span class="sd">        &gt;&gt;&gt; quote = Quote.get_quote(partner_id=&#39;aaa&#39;, query_params={&#39;limit&#39;: 10},  quote_package_id=&#39;bbbb&#39;)</span>
+
+<span class="sd">        :returns: Quote object with the fields according to the API Documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">quote</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="n">partner_id</span><span class="p">,</span> <span class="n">quote_package_id</span><span class="o">=</span><span class="n">quote_package_id</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">quote</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">query_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">quote</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">quote</span></div>
+
+<div class="viewcode-block" id="Quote.create_quote"><a class="viewcode-back" href="../../../index.html#xcovlib.api.quotes.Quote.create_quote">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_quote</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">partner_id</span><span class="p">,</span> <span class="n">query_params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a New Quote under a PartnerID by passing the API Fields as described in the API Docs</span>
+
+<span class="sd">        :partner_id: Id of the Partner for which the Quote is being created</span>
+<span class="sd">        :param query_params: Any parameters you want to pass in the URL</span>
+
+<span class="sd">        &gt;&gt;&gt; quote = Quote.create_quote(partner_id=&#39;aaa&#39;, query_params={&#39;limit&#39;: 10}, destination_country=&#39;AUS&#39;, data=...)</span>
+
+<span class="sd">        :returns: Quote object with the response fields according to the Documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">quote</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">partner_id</span><span class="o">=</span><span class="n">partner_id</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">quote</span><span class="o">.</span><span class="n">_create</span><span class="p">(</span><span class="n">query_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">quote</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">quote</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">xCover Python SDK</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Cover Genius.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
