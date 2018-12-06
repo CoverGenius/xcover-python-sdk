@@ -64,8 +64,8 @@ class Client:
         """
         Get the Booking details when the Quote Package ID and Project ID is provided
 
-        :param partner_id ID: The ID of the Partner under which the booking exists
-        :param quote_package_id Package ID: The ID of the Quote Package
+        :param partner_id: The ID of the Partner under which the booking exists
+        :param quote_package_id: The ID of the Quote Package
         :param query_params: Any parameters you want to pass in the URL
         :returns: Booking object
 
