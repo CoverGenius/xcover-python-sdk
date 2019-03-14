@@ -1,6 +1,8 @@
 import json
+
 import requests
 from xcovlib.utils import _logger
+
 from .base import BaseRequest
 from .exceptions import NoResponseError
 
@@ -69,7 +71,6 @@ class HttpRequest(BaseRequest):
         """
         return self._send('PATCH', path, data)
 
-
     def _make_request(self, method, path, data=None, **kwargs):
         """Make a request.
 
@@ -88,12 +89,12 @@ class HttpRequest(BaseRequest):
         _logger.debug("Method for request is %s" % method)
         url = self._construct_full_url(path)
         _logger.debug("URL for request is %s" % url)
-        self._auth_info.sign(path, method, self.only_host)
+        headers = self._auth_info.sign()
         _logger.debug("The arguments are %s" % kwargs)
 
         # Add custom headers for the request
-        if self._auth_info._headers:
-            kwargs.setdefault('headers', {}).update(self._auth_info._headers)
+        if headers:
+            kwargs.setdefault('headers', {}).update(headers)
 
         res = requests.request(method, url, data=data, verify=False, **kwargs)
         if res.ok:

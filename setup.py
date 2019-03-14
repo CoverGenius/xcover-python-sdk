@@ -4,7 +4,6 @@
 
 from setuptools import setup, find_packages
 
-
 with open('README.rst') as f:
     readme = f.read()
 
@@ -21,6 +20,5 @@ setup(
     url='https://github.com/CoverGenius/xcover-python-sdk/',
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
-    install_requires=['pycryptodome==3.7.2', 'httpsig', 'requests'],  # external packages as dependencies
+    install_requires=['requests'],
 )
-

@@ -1,4 +1,7 @@
 from unittest import TestCase
+
+import responses
+
 from ..client import Client
 
 
@@ -10,7 +13,18 @@ class TestClient(TestCase):
         host = '127.0.0.1:8001'
         self.client = Client(host=host, key=key, secret=secret)
 
+    @responses.activate
     def test_booking_quote(self):
+        quote_package_response = {
+            'id': 'XX-INS',
+            'quotes': {'0': {'id': '123'}}
+        }
+        responses.add(responses.POST, 'https://127.0.0.1:8001/partners/XCOV/quotes/', status=201,
+                      json=quote_package_response)
+        responses.add(responses.GET, 'https://127.0.0.1:8001/partners/XCOV/bookings/XX-INS/', status=200,
+                      json=quote_package_response)
+        responses.add(responses.POST, 'https://127.0.0.1:8001/partners/XCOV/bookings/XX-INS/', status=200,
+                      json=quote_package_response)
         data = [{
             "policy_type": "parcel_insurance",
             "policy_type_version": 1,
@@ -37,7 +51,7 @@ class TestClient(TestCase):
         # save quotes
         self.assertIsNotNone(quote.id)
         package_id = quote.id
-        quote_id = quote.quotes[0]['id']
+        quote_id = quote.quotes['0']['id']
 
         # create a new booking
         booking_data = {

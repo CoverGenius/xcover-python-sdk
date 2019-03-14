@@ -67,7 +67,7 @@ ATTR_TYPE_WRITE = 'write'
 ATTR_TYPE_URL = 'url'
 
 
-class BaseModel():
+class BaseModel:
     """Base class for xCover models.
 
     Each model has a list of fields. The model works as a proxy between the
@@ -94,7 +94,6 @@ class BaseModel():
     # All fields defined here will be used for constructing
     # the URL of the request
     url_fields = set()
-
 
     # Initially False, set to True when an instance of the class is created
     _is_initialized = False
@@ -129,7 +128,7 @@ class BaseModel():
         model._populate(**kwargs)
         return model
 
-    def __init__(self, prefix='/api/v2/', **url_values):
+    def __init__(self, prefix='', **url_values):
         """Constructor.
 
         Initializes various variables, setup the HTTP handler and
@@ -166,7 +165,6 @@ class BaseModel():
 
         if name in self._populated_fields:
             return self._populated_fields[name]
-
 
     def __setattr__(self, name, value):
         """Set the value of a field."""

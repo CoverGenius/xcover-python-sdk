@@ -1,25 +1,21 @@
+import os
 from unittest import TestCase
+
+from freezegun import freeze_time
+
 from ..auth import SignatureAuth
+
+os.environ['TZ'] = 'Europe/London'
 
 
 class TestAuth(TestCase):
+
+    @freeze_time("2019-01-01", tz_offset=0)
     def test_signature_auth_headers(self):
-        """
-        Test the signature generated is correct
-        :return:
-        """
         key, secret = 'abcd', 'efgh'
-        auth_info = SignatureAuth(key, secret)
 
-        host = 'xcover.com'
-        method = 'POST'
-        path = '/api/v2/quotes'
-
-        auth_info.sign(path, host, method)
-        self.assertEqual(
-            {
-                'Authorization': 'Signature algorithm="hmac-sha256",headers="(request-target) host x-api-key",signature="aTU90zZGMJRkz4OLiC1g0Z0V1VGn36qq+mWz85fVTdY="',
-                'X-Api-Key': 'abcd'
-            },
-            auth_info._headers
-        )
+        headers = SignatureAuth(key, secret).sign()
+        self.assertEqual(headers['Authorization'],
+                         'Signature keyId="abcd",algorithm="hmac-sha1",signature="N%2BMCbEVhvCMWdhqmtxxva5%2BVHt4%3D"')
+        self.assertEqual(headers['Date'], 'Tue, 01 Jan 2019 00:00:00 GMT')
+        self.assertEqual(headers['X-Api-Key'], 'abcd')

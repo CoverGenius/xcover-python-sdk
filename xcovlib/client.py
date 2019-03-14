@@ -14,7 +14,7 @@ class Client:
 
     >>> client = Client(host=host, key=key, secret=secret)
     """
-    def __init__(self, host, key, secret, prefix='/api/v2/'):
+    def __init__(self, host, key, secret, prefix=''):
         """
         :param host: Host URL of the xCover Service
         :param key: Key for Auth
@@ -38,7 +38,7 @@ class Client:
 
         :returns: Quote object with the response fields according to the Documentation
         """
-        quote = Quote(partner_id=partner_id)
+        quote = Quote(partner_id=partner_id, prefix=self.prefix)
         response = quote._create(query_params, **kwargs)
         quote.set_values(response)
         return quote
@@ -55,7 +55,7 @@ class Client:
 
         :returns: Quote object with the fields according to the API Documentation
         """
-        quote = Quote(partner_id=partner_id, quote_package_id=quote_package_id)
+        quote = Quote(partner_id=partner_id, quote_package_id=quote_package_id, prefix=self.prefix)
         response = quote._get(query_params, **kwargs)
         quote.set_values(response)
         return quote
@@ -73,7 +73,7 @@ class Client:
         kwargs['partner_id'] = partner_id
         kwargs['quote_package_id'] = quote_package_id
 
-        booking = Bookings(partner_id=partner_id, quote_package_id=quote_package_id)
+        booking = Bookings(partner_id=partner_id, quote_package_id=quote_package_id, prefix=self.prefix)
         response = booking._get(query_params, **kwargs)
         booking.set_values(response)
         return booking
@@ -88,7 +88,7 @@ class Client:
 
         :returns: Booking object with all the data as in the API Documentation
         """
-        booking = Bookings(partner_id=partner_id, quote_package_id=quote_package_id)
+        booking = Bookings(partner_id=partner_id, quote_package_id=quote_package_id, prefix=self.prefix)
         response = booking._create(query_params, **kwargs)
         booking.set_values(response)
         return booking
@@ -118,7 +118,7 @@ class Client:
 
         :param query_params: Any parameters you want to pass in the URL
         """
-        policy_types = PolicyTypes(**kwargs)
+        policy_types = PolicyTypes(prefix=self.prefix, **kwargs)
         response = policy_types._get(query_params, **kwargs)
         policy_types.set_values(response)
         return policy_types
