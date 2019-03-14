@@ -1,5 +1,5 @@
 Welcome to xCover API SDK
 =========================
 
-* Use this python library to communicate with XCover's API which enables the biggest businesses to sell insurance
+* This library communicates with XCover API
 * Docs available at https://covergenius.github.io/xcover-python-sdk/
