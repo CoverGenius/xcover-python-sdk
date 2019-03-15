@@ -12,7 +12,7 @@ with open('LICENSE') as f:
 
 setup(
     name='xcovlib',
-    version='0.7.0',
+    version='0.7.1',
     description='XCover API client library for Python',
     long_description=readme,
     author='Udit Agarwal',
