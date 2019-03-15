@@ -24,7 +24,7 @@ class SignatureAuth(object):
 
     def create_signature(self, date):
         raw = 'date: {date}'.format(date=date)
-        hashed = hmac.digest(self._secret.encode('utf-8'), raw.encode('utf-8'), sha1)
+        hashed = hmac.new(self._secret.encode('utf-8'), raw.encode('utf-8'), sha1).digest()
         return quote(b64encode(hashed))
 
     def build_signature(self, signature, key):
