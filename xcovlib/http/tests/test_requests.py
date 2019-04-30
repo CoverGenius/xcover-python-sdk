@@ -63,7 +63,7 @@ class TestHttpRequest(TestCase):
             rsps.add(responses.POST,
                      "{}/api/v2/projects/".format(self.hostname),
                      status=201)
-            data = {"slug": 'txlib', "name":'Txlib project'}
+            data = {"slug": 'xcovlib', "name":'Xcovlib project'}
             h.post(path, data=data)
 
     @responses.activate
