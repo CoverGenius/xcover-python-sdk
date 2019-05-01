@@ -16,6 +16,6 @@ class TestAuth(TestCase):
 
         headers = SignatureAuth(key, secret).sign()
         self.assertEqual(headers['Authorization'],
-                         'Signature keyId="abcd",algorithm="hmac-sha1",signature="N%2BMCbEVhvCMWdhqmtxxva5%2BVHt4%3D"')
+                         'Signature keyId="abcd",algorithm="hmac-sha512",signature="f6RnwuCiDBJiAgi7fbc4cXEeKF%2BPKiIA%2BQbKVHqQmu3KHemhLg2wV5FDceUEbzPurmnqQi5H7W9Ot1om0o7W3A%3D%3D"')
         self.assertEqual(headers['Date'], 'Tue, 01 Jan 2019 00:00:00 GMT')
         self.assertEqual(headers['X-Api-Key'], 'abcd')

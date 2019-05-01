@@ -3,10 +3,10 @@ Authentication related module.
 """
 from __future__ import unicode_literals
 
+from base64 import b64encode
+from hashlib import sha512
 import hmac
 import re
-from base64 import b64encode
-from hashlib import sha1
 from urllib.parse import quote
 
 from ..utils.dates import http_date
@@ -24,11 +24,11 @@ class SignatureAuth(object):
 
     def create_signature(self, date):
         raw = 'date: {date}'.format(date=date)
-        hashed = hmac.new(self._secret.encode('utf-8'), raw.encode('utf-8'), sha1).digest()
-        return quote(b64encode(hashed))
+        hashed = hmac.new(self._secret.encode('utf-8'), raw.encode('utf-8'), sha512).digest()
+        return quote(b64encode(hashed), safe='')
 
     def build_signature(self, signature, key):
-        template = ('Signature keyId="%(key)s",algorithm="hmac-sha1",'
+        template = ('Signature keyId="%(key)s",algorithm="hmac-sha512",'
                     'signature="%(signature)s"')
 
         return template % {
